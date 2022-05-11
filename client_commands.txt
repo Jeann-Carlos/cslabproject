@@ -1,0 +1,5 @@
+Sudo apt install openvpn
+sudo apt install python3
+sudo apt install python3-pip
+sudo apt install seclists
+python3 -m pip install git+https://github.com/Tib3rius/AutoRecon.git

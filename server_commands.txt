@@ -1,0 +1,93 @@
+-- auto-generated definition
+create table clientes
+(
+    CLIENT_ID int auto_increment
+        primary key,
+    IP_VPN    char(17) null,
+    constraint clientes_ID_uindex
+        unique (CLIENT_ID),
+    constraint clientes_IP_VPN_uindex
+        unique (IP_VPN)
+);
+
+-- auto-generated definition
+create table host
+(
+    HOST_ID   int auto_increment
+        primary key,
+    HOST_IP   char(17) null,
+    CLIENT_ID int      null,
+    constraint host_ID_uindex
+        unique (HOST_ID),
+    constraint host_host_ip_uindex
+        unique (HOST_IP, CLIENT_ID),
+    constraint host_clientes_Id_fk
+        foreign key (CLIENT_ID) references clientes (CLIENT_ID)
+            on update cascade on delete cascade
+);
+
+-- auto-generated definition
+create table log_servicios
+(
+    NOMBRE       char(255)                             null,
+    STATUS       char(8)                               null,
+    TIMESTAMP    timestamp default current_timestamp() not null on update current_timestamp(),
+    SERVICIOS_ID int                                   not null
+        primary key,
+    constraint log_servicios_servicios_SERVICIOS_ID_fk
+        foreign key (SERVICIOS_ID) references servicios (SERVICIOS_ID)
+);
+
+-- auto-generated definition
+create table logs
+(
+    HADDRS    char(12)                              null,
+    TIMESTAMP timestamp default current_timestamp() not null on update current_timestamp(),
+    STATUS    char(8)                               null,
+    LOG_ID    int auto_increment
+        primary key,
+    HOST_ID   int                                   not null,
+    constraint logs_host_HOST_ID_fk
+        foreign key (HOST_ID) references host (HOST_ID)
+            on update cascade on delete cascade
+);
+
+-- auto-generated definition
+create table servicios
+(
+    PORT         int(7)  null,
+    PROTOCOL     char(3) null,
+    SERVICIOS_ID int auto_increment
+        primary key,
+    HOST_ID      int     null,
+    constraint `servicios_SERVICIOS ID_uindex`
+        unique (SERVICIOS_ID),
+    constraint servicios_host_HOST_ID_fk
+        foreign key (HOST_ID) references host (HOST_ID)
+);
+
+sudo apt install nmap
+sudo apt install openssh-server
+systemctl start ssh
+systemctl enable ssh
+sudo systemctl start mariadb.service
+sudo systemctl enable mariadb.service
+sudo mysql -u root
+create database invlab;
+use invlab;
+*use generated sources*
+show tables;
+CREATE USER 'clientlab'@'localhost' IDENTIFIED BY 'cslab';
+GRANT ALL PRIVILEGES ON invlab TO 'clientlab'@localhost IDENTIFIED BY 'cslab';
+exit
+sudo useradd client_rrsync
+sudo passwd  client_rrsync
+sudo mkhomedir_helper client_rrsync
+sudo mkdir /home/client_rrsync/results
+Sudo apt install quota
+sudo nano /etc/fstab   usrquota grpquota
+sudo mount -o remount,usrquota,grpquota /
+sudo quotacheck -cum /
+sudo quotaon -v /
+sudo setquota -u client_rrsync 1G 1G 0 0 /
+sudo quota -vs client_rrsync
