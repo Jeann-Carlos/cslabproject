@@ -3,3 +3,4 @@ sudo apt install python3
 sudo apt install python3-pip
 sudo apt install seclists
 python3 -m pip install git+https://github.com/Tib3rius/AutoRecon.git
+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
