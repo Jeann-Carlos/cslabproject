@@ -12,7 +12,7 @@ try:
         password="cslab",
         host="127.0.0.1",
         port=3306,
-        database="Invlab"
+        database="invlab"
 
     )
 except mariadb.Error as e:
@@ -71,24 +71,26 @@ def getMacAddress(filecontent):
 
 
 def insertHostLogs(cur_host_id, hardware_address):
-    try:
-        print(f"Inserting host with Mac Address: {hardware_address}")
-        cur.execute(f"insert into logs (HOST_ID,HADDRS,status) values ('{cur_host_id}','{hardware_address}','online')")
-        conn.commit()
-    except mariadb.IntegrityError:
-        print(f"Updating log timestamp for host with Mac Address: {hardware_address}")
-        cur.execute(f"select * from logs where HADDRS='{hardware_address}' and HOST_ID={cur_host_id}")
-        if cur.fetchone() != None:
-            cur.execute(f"update logs set timestamp=current_time() where HADDRS='{hardware_address}'")
+        cur.execute(f"select * from logs where HOST_ID={cur_host_id}")
+        if cur.fetchone() == None:
+            print(f"Inserting host with Mac Address: {hardware_address}")
+            cur.execute(f"insert into logs (HOST_ID,HADDRS,STATUS) values ('{cur_host_id}','{hardware_address}','online')")
+            conn.commit()
         else:
-            print("A Host has changed")
-            cur.execute(f"select HADDRS from logs where HOST_ID='{cur_host_id}'")
-            print(f"Old Mac Address:{cur.fetchone()[0]} New Mac Address: {hardware_address}")
-
+            cur.execute(f"select * from logs where HADDRS='{hardware_address}' and HOST_ID={cur_host_id}")
+            if cur.fetchone() == None:
+                cur.execute(f"select * from logs where HOST_ID={cur_host_id}")
+                print("!!!ALERT!!!: A Host has changed")
+                print(f"Old Mac Address:{cur.fetchone()[0]} New Mac Address: {hardware_address}")
+                print(f"Inserting host with Mac Address: {hardware_address}")
+            cur.execute(f"insert into logs (HOST_ID,HADDRS,STATUS) values ('{cur_host_id}','{hardware_address}','online')")
+            conn.commit()
+                
+                
 
 def insertClientIP(client):
     try:
-        cur.execute(f"insert into clientes (ip_vpn) values ('{client}')")
+        cur.execute(f"insert into clientes (IP_VPN) values ('{client}')")
         conn.commit()
     except mariadb.IntegrityError:
         print(f'Already added {client} as a client ip skipping insertion...')
@@ -101,7 +103,7 @@ def insertClientIP(client):
 
 def insertHostIP(cur_host_ip, cur_client_id, cur_client_ip):
     try:
-        cur.execute(f"insert into host (HOST_IP,CLIENT_ID) printvalues ('{cur_host_ip}','{cur_client_id}')")
+        cur.execute(f"insert into host (HOST_IP,CLIENT_ID) values ('{cur_host_ip}','{cur_client_id}')")
         conn.commit()
     except mariadb.IntegrityError:
         print(f'This host: {cur_host_ip} already has a relation with client: {cur_client_ip}. Skipping insertion.')
@@ -125,6 +127,9 @@ def printInsertedValues(filecontent, finished_scan):
 def main():
     hosts = os.listdir("/home/client_rrsync/results/finished/")
     print(hosts)
+    if not hosts:
+        print('Nothing to insert')
+        exit(0)
     for cur_host_ip in hosts:
         try:
             for cur_client_ip in os.listdir('/home/client_rrsync/results/' + cur_host_ip + '/results/'):
@@ -139,8 +144,8 @@ def main():
                   #  insertHostServiceLogs(cur_host_service_id,services)
                     hardware_address = getMacAddress(filecontent)
                     insertHostLogs(cur_host_id, hardware_address)
-                    # printInsertedValues(filecontent,  cur_host_ip, cur)
-                    # removeFinishedScan(cur_host_ip)
+                    #printInsertedValues(filecontent,  cur_host_ip, cur)
+                    removeFinishedScan(cur_host_ip)
                 except FileNotFoundError as err:
                     print(f"current directory: {cur_client_ip} doesn't have the scan folder...skipping.")
                     pass
