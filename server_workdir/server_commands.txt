@@ -1,4 +1,4 @@
-instaaaaaaaaaaaaaaaaaaaaaaaaaaattttttttttttttttttttttttttttttttttttttttttttttttttttttt-- auto-generated definition
+-- auto-generated definition
 create table clientes
 (
     CLIENT_ID int auto_increment
