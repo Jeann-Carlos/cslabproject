@@ -84,6 +84,7 @@ sudo useradd client_rrsync
 sudo passwd  client_rrsync
 sudo mkhomedir_helper client_rrsync
 sudo mkdir /home/client_rrsync/results
+sudo chmod 777 /home/client_rrsync/results
 Sudo apt install quota
 sudo nano /etc/fstab   usrquota grpquota
 sudo mount -o remount,usrquota,grpquota /

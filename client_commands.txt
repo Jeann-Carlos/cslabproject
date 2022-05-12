@@ -2,5 +2,9 @@ Sudo apt install openvpn
 sudo apt install python3
 sudo apt install python3-pip
 sudo apt install seclists
+sudo apt install screen
+sudo apt install nmap
+sudo apt install openssh-client
 python3 -m pip install git+https://github.com/Tib3rius/AutoRecon.git
-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
+sudo ssh-keygen
+sudo echo 'command="/usr/bin/rrsync -wo ~/results",no-agent-forwarding,no-port-forwarding,no-pty,no-user-rc,no-X11-forwarding' $(sudo cat /root/.ssh/id_rsa.pub) | sudo ssh client_rrsync@10.145.181/87 'cat >> ~/.ssh/authorized_keys'
