@@ -1,5 +1,4 @@
 serverip= 
-sudo cp ../client_workdir ~/client_workdir
 Sudo apt install openvpn
 sudo apt install python3
 sudo apt install python3-pip
