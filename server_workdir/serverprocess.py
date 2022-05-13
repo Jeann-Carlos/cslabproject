@@ -3,7 +3,7 @@ import re
 import subprocess
 import sys
 import time
-
+import datetime
 import mariadb
 
 try:
@@ -126,7 +126,7 @@ def printInsertedValues(filecontent, finished_scan):
 
 def main():
     hosts = os.listdir("/home/client_rrsync/results/finished/")
-    print(hosts)
+    print(f"Starting insertion at {datetime.datetime.now()}")
     if not hosts:
         print('Nothing to insert')
         exit(0)
