@@ -91,8 +91,9 @@ My recommendation is to use kali linux: https://www.kali.org/get-kali/
 Download the ISO for the respective machines:
    1. Link to the server mahcine iso: [https://example.com](https://example.com)
    2. 1. Link to client mahcine iso: [https://example.com](https://example.com)
+Clone the project into their home directories:
    ```sh
-   git clone https://github.com/your_username_/Project-Name.git
+   git clone https://github.com/Jeann-Carlos/cslabproject.git
    ```
 3. Install NPM packages
    ```sh
