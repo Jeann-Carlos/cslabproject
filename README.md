@@ -87,15 +87,38 @@ Only two  debian based machines are required for ths project: the server machine
 My recommendation is to use kali linux: https://www.kali.org/get-kali/
 * For the server side a local machine is required to function as a vpn and ahub where all the client info will be transfered.
 
-### ISO installation:
-Download the ISO for the respective machines:
+  
+## Insatallion
+
+### Pre-prepared ISO:
+ 
+ * Download the ISO for the respective machines:
    1. Link to the server mahcine iso: [https://example.com](https://example.com)
-   2. 1. Link to client mahcine iso: [https://example.com](https://example.com)
-Clone the project into their home directories:
-   ```sh
+   2. Link to the client mahcine iso: [https://example.com](https://example.com)
+ * Clone the project: 
+   ```
    git clone https://github.com/Jeann-Carlos/cslabproject.git
    ```
-3. Install NPM packages
+ * Server Side:
+   Run the installation script:
+   ```
+   sudo chmod 755 ./cslabproject/server_workdir/installation_script.sh
+   sudo ./cslabproject/server_workdir/installation_script.sh
+   ```
+   If you dont have a VPN of your own, you can use the openvpn installer:
+   ```
+   sudo chmod 755 ./cslabproject/server_workdir/openvpn_install.sh
+   sudo ./cslabproject/server_workdir/openvpn_install.sh
+   ```
+ * Cient Side:
+   Run the installation script:
+   ```
+   sudo chmod 755 ./cslabproject/client_workdir/installation_script.sh
+   sudo ./cslabproject/client_workdir/installation_script.sh
+   ```
+
+   
+
    ```sh
    npm install
    ```
