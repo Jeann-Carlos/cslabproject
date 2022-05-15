@@ -89,9 +89,48 @@ My recommendation is to use kali linux: https://www.kali.org/get-kali/
   
 ## Insatallion
 
-### Pre-prepared ISO:
+### Pre-prepared ISO instalaltion:
  
- * Download the ISO for the respective machines:
+  #### Download the ISO for the respective machines:
+   1. Link to the server mahcine iso: [https://example.com](https://example.com)  
+     User: cslab  
+     Pass: sweet child o ccom
+   3. Link to the client mahcine iso: [https://example.com](https://example.com)  
+    User: cslab  
+    Pass: sweet child o ccom
+  #### Clone the project: 
+   Once you are in, use the terminal to clone the project:
+   ```
+   git clone https://github.com/Jeann-Carlos/cslabproject.git
+   ```
+ ### Server Side:  
+   If you dont have a VPN of your own, you can use the openvpn installer:
+   ```
+   sudo chmod +x ./cslabproject/server_workdir/openvpn_install.sh
+   sudo ./cslabproject/server_workdir/openvpn-install.sh
+   ```
+  #### Set crontab timer:  
+   
+   ```
+   sudo crontab -e 
+   ```
+   When you open the file, it should contain this line at the end: `*/3 * * * * program_name >/dev/null 2>&1`   
+   Modify it to choose when the process should look for new files sent by the cleint pc, by default the scan will run every 3 mins
+   
+   Crontab Syntax:  
+   ![GitHub Logo](https://i2.wp.com/www.adminschoice.com/wp-content/uploads/2009/12/crontab-layout.png?resize=768%2C341&ssl=1)
+  
+   
+   
+ ### Cient Side:  
+   Run the installation script:
+   ```
+   sudo chmod +x ./cslabproject/client_workdir/installation_script.sh
+   sudo ./cslabproject/client_workdir/installation_script.sh
+   ```
+## Manual Installation:
+
+  * Download the ISO for the respective machines:
    1. Link to the server mahcine iso: [https://example.com](https://example.com)  
      User: cslab  
      Pass: sweet child o ccom
@@ -103,59 +142,78 @@ My recommendation is to use kali linux: https://www.kali.org/get-kali/
    ```
    git clone https://github.com/Jeann-Carlos/cslabproject.git
    ```
- * Server Side:  
+ ### Server Side:
+  #### Run the installation script:  
+   ```
+   sudo chmod +x ./cslabproject/server_workdir/installation_script.sh
+   sudo ./cslabproject/server_workdir/installation_script.sh
+   ```
    If you dont have a VPN of your own, you can use the openvpn installer:
    ```
    sudo chmod +x ./cslabproject/server_workdir/openvpn_install.sh
    sudo ./cslabproject/server_workdir/openvpn-install.sh
    ```
- * Set crontab timer:  
+  #### Set up the Database:
+   ```  
+   sudo mysql -u root
+   ```
+   Inside mysql:  
+   ```
+   create database [DB_name];
+   use [DB_name];
+   ```
+   Copy generated sources from `genSources.txt` located in `cslab/server_workdir/genSources.txt`.  
+   And run
+   ```
+  show tables;
+   ```
+   #### Create a new DB user:
+   ```
+ CREATE USER '[user_name]'@'localhost' IDENTIFIED BY '[password]';
+   ```
+   To assing privileges to your database:
+   ```
+ GRANT ALL PRIVILEGES ON [DB_name].* TO '[user_name]'@localhost IDENTIFIED BY '[password]';
+   ```
+   Exit MariaDB:
+   ```
+ exit
+   ```
+ #### Create new user for RRsync (Restricted rsync):
+ To add the user run: 
+  ```
+sudo useradd [rrsync_user]
+  ```
+ To add password to it:
+   ```
+sudo passwd  [rrsync_user]
+   ```
+  Assing a home dir:
+   ```
+sudo mkhomedir_helper [rrsync_user]
+   ```
+   Create a results dir in their home dir:
+   ```
+   sudo mkdir /home/[rrsync_user]/results
+   ```
+ 
    
-   ```
-   sudo crontab -e 
-   ```
-   When you open the file, it should contain this line at the end:  
-   */3 * * * * program_name >/dev/null 2>&1
-   Modify it to choose when the process should look for new files sent by the cleint pc, by default the scan will run every 3 mins
    
-   Crontab Syntax:  
-   ![GitHub Logo](https://i2.wp.com/www.adminschoice.com/wp-content/uploads/2009/12/crontab-layout.png?resize=768%2C341&ssl=1)
-  
-   
-   
- * Cient Side:  
-   Run the installation script:
-   ```
-   sudo chmod +x ./cslabproject/client_workdir/installation_script.sh
-   sudo ./cslabproject/client_workdir/installation_script.sh
-   ```
-
-
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-### Manual Installation:
-
- * Clone the project: 
-   ```
-   git clone https://github.com/Jeann-Carlos/cslabproject.git
-   ```
- * Server Side:  
-   Run the installation script:
-   ```
-   sudo chmod 755 ./cslabproject/server_workdir/installation_script.sh
-   sudo ./cslabproject/server_workdir/installation_script.sh
-   ```
-   If you dont have a VPN of your own, you can use the openvpn installer:
-   ```
-   sudo chmod 755 ./cslabproject/server_workdir/openvpn_install.sh
-   sudo ./cslabproject/server_workdir/openvpn-install.sh
-   ```
- * Cient Side:  
+ #### Cient Side:  
    Run the installation script:
    ```
    sudo chmod 755 ./cslabproject/client_workdir/installation_script.sh
    sudo ./cslabproject/client_workdir/installation_script.sh
    ```
+   Open client_scan.sh inside client_workdir with a file editor:
+   
+   
+ #### Client_scan settings:  
+   localip=  
+   serverip=  
+   targettimeout=  
+   globaltimeout=  
+   
 
 <!-- USAGE EXAMPLES -->
 ## Usage
