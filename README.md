@@ -53,8 +53,7 @@ methods are planned.
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+This is a resource page made to help anyone working on this research setup the basics and startup their machines. Some knowledge about bash commands and terminal usage is assumed.
 
 ### Prerequisites
 Only two  debian based machines are required for ths project: the server machine and the client machine which should be located under the restricted network to penetrate.
@@ -93,13 +92,54 @@ My recommendation is to use kali linux: https://www.kali.org/get-kali/
 ### Pre-prepared ISO:
  
  * Download the ISO for the respective machines:
-   1. Link to the server mahcine iso: [https://example.com](https://example.com)
-   2. Link to the client mahcine iso: [https://example.com](https://example.com)
+   1. Link to the server mahcine iso: [https://example.com](https://example.com)  
+     User: cslab  
+     Pass: sweet child o ccom
+   3. Link to the client mahcine iso: [https://example.com](https://example.com)  
+    User: cslab  
+    Pass: sweet child o ccom
+ * Clone the project: 
+   Once you are in, use the terminal to clone the project:
+   ```
+   git clone https://github.com/Jeann-Carlos/cslabproject.git
+   ```
+ * Server Side:  
+   If you dont have a VPN of your own, you can use the openvpn installer:
+   ```
+   sudo chmod +x ./cslabproject/server_workdir/openvpn_install.sh
+   sudo ./cslabproject/server_workdir/openvpn-install.sh
+   ```
+ * Set crontab timer:  
+   
+   ```
+   sudo crontab -e 
+   ```
+   When you open the file, it should contain this line at the end:  
+   */3 * * * * program_name >/dev/null 2>&1
+   Modify it to choose when the process should look for new files sent by the cleint pc, by default the scan will run every 3 mins
+   
+   Crontab Syntax:  
+   ![GitHub Logo](https://i2.wp.com/www.adminschoice.com/wp-content/uploads/2009/12/crontab-layout.png?resize=768%2C341&ssl=1)
+  
+   
+   
+ * Cient Side:  
+   Run the installation script:
+   ```
+   sudo chmod +x ./cslabproject/client_workdir/installation_script.sh
+   sudo ./cslabproject/client_workdir/installation_script.sh
+   ```
+
+
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+### Manual Installation:
+
  * Clone the project: 
    ```
    git clone https://github.com/Jeann-Carlos/cslabproject.git
    ```
- * Server Side:
+ * Server Side:  
    Run the installation script:
    ```
    sudo chmod 755 ./cslabproject/server_workdir/installation_script.sh
@@ -108,28 +148,14 @@ My recommendation is to use kali linux: https://www.kali.org/get-kali/
    If you dont have a VPN of your own, you can use the openvpn installer:
    ```
    sudo chmod 755 ./cslabproject/server_workdir/openvpn_install.sh
-   sudo ./cslabproject/server_workdir/openvpn_install.sh
+   sudo ./cslabproject/server_workdir/openvpn-install.sh
    ```
- * Cient Side:
+ * Cient Side:  
    Run the installation script:
    ```
    sudo chmod 755 ./cslabproject/client_workdir/installation_script.sh
    sudo ./cslabproject/client_workdir/installation_script.sh
    ```
-
-   
-
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
-   ```
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-### Manual Installation:
-
 
 <!-- USAGE EXAMPLES -->
 ## Usage
