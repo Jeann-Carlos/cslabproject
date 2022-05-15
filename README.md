@@ -199,13 +199,20 @@ sudo mkhomedir_helper [rrsync_user]
    sudo chmod 755 /home/client_rrsync/results
    ```
   #### Setup User quota:
-   Modify `sudo nano /etc/fstab` modify the <options> section, add:
+   Modify sudo nano `/etc/fstab modify` the `options` section, add `usrquota grpquota` to it,
+   it should look like this.  
+   ##### Example before:  
+   
+     UUID          /                 ext4    defaults        0 1
+
+   ##### Example after:    
+     UUID          /                  ext4    defaults,usrquota,grpquota  0 1
+   Reboot the machine.
+   
+   After booting run to set user quota with:
    ```
-   sudo mkdir /home/[rrsync_user]/results
-   sudo chown [rrsync_user] /home/[rrsync_user]/results
-   sudo chmod 755 /home/client_rrsync/results
+   sudo setquota -u [rrsync_client] 200M 220M 0 0 /
    ```
- 
    
    
  #### Cient Side:  
