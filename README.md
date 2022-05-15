@@ -192,9 +192,18 @@ sudo passwd  [rrsync_user]
    ```
 sudo mkhomedir_helper [rrsync_user]
    ```
-   Create a results dir in their home dir:
+   Create a results dir in their home dir and correct permissions:
    ```
    sudo mkdir /home/[rrsync_user]/results
+   sudo chown [rrsync_user] /home/[rrsync_user]/results
+   sudo chmod 755 /home/client_rrsync/results
+   ```
+  #### Setup User quota:
+   Modify `sudo nano /etc/fstab` modify the <options> section, add:
+   ```
+   sudo mkdir /home/[rrsync_user]/results
+   sudo chown [rrsync_user] /home/[rrsync_user]/results
+   sudo chmod 755 /home/client_rrsync/results
    ```
  
    
