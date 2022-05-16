@@ -37,6 +37,8 @@ agents from gaining access to our systems. Because of the risks involved, drasti
 measures are sometimes taken such as blocking all incoming connections to the
 network. Despite there being ways to get around these restrictions, on the rare
 occasion that you need to access any restricted network from outside (of their local network), current methods require leaving our system somewhat vulnerable.
+
+
 This research focuses on creating innovative methods for gaining secure access to
 these restricted systems while minimizing any potential hazards involved. The
 main scope of this project is to allow those in need of reconnaissance of their
@@ -45,7 +47,7 @@ systems. Many governmental and commercial enterprises may find it advantageous t
 to it and/or exposing it to outsiders. Plausible scenarios where our research
 could help is in the incorporation of third-party IT/Network management users
 or networks that may be located behind many firewalls.This is currently being
-accomplished through the usage of VPN and IPv4 traffic redirection but other
+accomplished through the usage of VPNs and traffic redirection but other
 methods are planned.
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -53,38 +55,8 @@ methods are planned.
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is a resource page made to help anyone working on this research setup the basics and startup their machines. Some knowledge about bash commands and terminal usage is assumed.
+This is a reference page designed to assist anyone working on this project with setting up the basics and getting their computers up and running. It is assumed that you are familiar with bash commands and terminal usage.For this project, only two debian-based machines are required: the server and the client, where as the client must be situated within the restricted network.
 
-### Prerequisites
-Only two  debian based machines are required for ths project: the server machine and the client machine which should be located under the restricted network to penetrate.
-
-*  For the client side a machine under a restricted network preferafily with debian based linux distribution is required, you will also need acess to this programs:
-  ```
-  curl
-  rsync
-  enum4linux
-  feroxbuster
-  gobuster
-  impacket-scripts
-  nbtscan
-  nikto
-  nmap
-  onesixtyone
-  oscanner
-  redis-tools
-  smbclient
-  smbmap
-  snmpwalk
-  sslscan
-  svwar
-  tnscmd10g
-  whatweb
-  wkhtmltopdf
-  python
-  openvpn
-  ```
-My recommendation is to use kali linux: https://www.kali.org/get-kali/
-* For the server side a local machine is required to function as a vpn and ahub where all the client info will be transfered.
 
   
 ## Insatallion
@@ -114,8 +86,9 @@ My recommendation is to use kali linux: https://www.kali.org/get-kali/
    ```
    sudo crontab -e 
    ```
-   When you open the file, it should contain this line at the end: `*/3 * * * * program_name >/dev/null 2>&1`   
-   Modify it to choose when the process should look for new files sent by the cleint pc, by default the scan will run every 3 mins
+  This line should appear at the end of the file when you open it (unless you used your own ISO): `*/3 * * * * program_name >/dev/null 2>&1`   
+   Server: Change it to specify when the process should look for fresh files sent by the client pc; the scan will run every 3 minutes by default.
+   Client: Change it to specify when the process should start a scan and send files to the Vpn server.
    
    Crontab Syntax:  
    ![GitHub Logo](https://i2.wp.com/www.adminschoice.com/wp-content/uploads/2009/12/crontab-layout.png?resize=768%2C341&ssl=1)
@@ -128,9 +101,18 @@ My recommendation is to use kali linux: https://www.kali.org/get-kali/
    sudo chmod +x ./cslabproject/client_workdir/installation_script.sh
    sudo ./cslabproject/client_workdir/installation_script.sh
    ```
+ 
+  
+ #### Client_scan settings:  
+   Open the file `client_scan.sh` inside client_workdir with a file editor:  
+   localip=  
+   serverip=  
+   targettimeout=  
+   globaltimeout=  
+   
 ## Manual Installation:
 
-  * Download the ISO for the respective machines:
+  * Download the ISO for their respective machines:
    1. Link to the server mahcine iso: [https://example.com](https://example.com)  
      User: cslab  
      Pass: sweet child o ccom
@@ -171,7 +153,7 @@ My recommendation is to use kali linux: https://www.kali.org/get-kali/
    ```
  CREATE USER '[user_name]'@'localhost' IDENTIFIED BY '[password]';
    ```
-   To assing privileges to your database:
+   To assign privileges to your database:
    ```
  GRANT ALL PRIVILEGES ON [DB_name].* TO '[user_name]'@localhost IDENTIFIED BY '[password]';
    ```
@@ -201,7 +183,7 @@ sudo mkhomedir_helper [rrsync_user]
   #### Setup User quota:
    Modify sudo nano `/etc/fstab modify` the `options` section, add `usrquota grpquota` to it,
    it should look like this.  
-   ##### Example before:  
+  ##### Example before:  
    
      UUID          /                 ext4    defaults        0 1
 
@@ -215,26 +197,65 @@ sudo mkhomedir_helper [rrsync_user]
    sudo quotaon -v /
    sudo setquota -u [rrsync_client] 1G 1G 0 0 /
    ```
-   #### Setup Crontab: 
-   To open crontab editor use:
-   ```
-   sudo crontab -e
-   ```
+  #### Setup Crontab: 
+   Refer to the set crontab timer section:
+   [Set crontab timer](#set-crontab-timer)
    
- #### Cient Side:  
-   Run the installation script:
+ #### Cient Side: 
+ ### Prerequisites
+ You'll need a machine on a restricted network, preferably running a Debian-based Linux distribution, as well as access to the following programs::
+  ```
+  curl
+  rsync
+  enum4linux
+  feroxbuster
+  gobuster
+  impacket-scripts
+  nbtscan
+  nikto
+  nmap
+  onesixtyone
+  oscanner
+  redis-tools
+  smbclient
+  smbmap
+  snmpwalk
+  sslscan
+  svwar
+  tnscmd10g
+  whatweb
+  wkhtmltopdf
+  python
+  openvpn
+  ```
+My recommendation is to use kali linux: https://www.kali.org/get-kali/
+
+#### Run the installation script:  
+
+
+   Change the apropiate permissions:
    ```
    sudo chmod 755 ./cslabproject/client_workdir/installation_script.sh
+   ```
+   The file should have a variable named `serverip` assing to it your vpn ip like so:
+   ```
+   serverip=127.0.0.1
+   ```
+   Run the installation script:
+   ```
    sudo ./cslabproject/client_workdir/installation_script.sh
    ```
-   Open client_scan.sh inside client_workdir with a file editor:
-  
+   #### Setup Crontab: 
+   Refer to the set crontab timer section:
+   [Set crontab timer](#set-crontab-timer)
    
- #### Client_scan settings:  
-   localip=  
+   #### Client_scan settings:  
+   Open the file `client_scan.sh` inside client_workdir with a file editor and modify:  
+   localip=  # 
    serverip=  
    targettimeout=  
    globaltimeout=  
+   userRrsync=
    
 
 <!-- USAGE EXAMPLES -->
@@ -251,15 +272,9 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 <!-- ROADMAP -->
 ## Roadmap
 
-- [x] Add Changelog
-- [x] Add back to top links
-- [ ] Add Additional Templates w/ Examples
-- [ ] Add "components" document to easily copy & paste sections of the readme
-- [ ] Multi-language Support
-    - [ ] Chinese
-    - [ ] Spanish
+- [] More seamless instalation
+- [] Automatic Vulnerabilty assesement
 
-See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
