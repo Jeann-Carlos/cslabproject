@@ -211,9 +211,15 @@ sudo mkhomedir_helper [rrsync_user]
    
    After booting run to set user quota with:
    ```
-   sudo setquota -u [rrsync_client] 200M 220M 0 0 /
+   sudo quotacheck -cum /
+   sudo quotaon -v /
+   sudo setquota -u [rrsync_client] 1G 1G 0 0 /
    ```
-   
+   #### Setup Crontab: 
+   To open crontab editor use:
+   ```
+   sudo crontab -e
+   ```
    
  #### Cient Side:  
    Run the installation script:
@@ -222,7 +228,7 @@ sudo mkhomedir_helper [rrsync_user]
    sudo ./cslabproject/client_workdir/installation_script.sh
    ```
    Open client_scan.sh inside client_workdir with a file editor:
-   
+  
    
  #### Client_scan settings:  
    localip=  
