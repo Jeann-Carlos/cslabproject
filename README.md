@@ -81,19 +81,9 @@ This is a reference page designed to assist anyone working on this project with 
    sudo chmod +x ./cslabproject/server_workdir/openvpn_install.sh
    sudo ./cslabproject/server_workdir/openvpn-install.sh
    ```
-  #### Set crontab timer:  
-   
-   ```
-   sudo crontab -e 
-   ```
-  This line should appear at the end of the file when you open it (unless you used your own ISO): `*/3 * * * * program_name >/dev/null 2>&1`   
-   Server: Change it to specify when the process should look for fresh files sent by the client pc; the scan will run every 3 minutes by default.
-   Client: Change it to specify when the process should start a scan and send files to the Vpn server.
-   
-   Crontab Syntax:  
-   ![GitHub Logo](https://i2.wp.com/www.adminschoice.com/wp-content/uploads/2009/12/crontab-layout.png?resize=768%2C341&ssl=1)
-  
-   
+   #### Setup Crontab: 
+   Refer to the set crontab timer section:
+   [Set crontab timer](#set-crontab-timer)
    
  ### Cient Side:  
    Run the installation script:
@@ -104,22 +94,29 @@ This is a reference page designed to assist anyone working on this project with 
  
   
  #### Client_scan settings:  
-   Open the file `client_scan.sh` inside client_workdir with a file editor:  
-   localip=  
-   serverip=  
-   targettimeout=  
-   globaltimeout=  
+   Open the file `client_scan.sh` inside client_workdir with a file editor and modify: 
+   ```
+   localip  # local machine ip
+   serverip # vpn server ip
+   targettimeout # per target timeout
+   globaltimeout # global timeout 
+   userrsync # user to rrsync
+   ```  
+  #### Setup Crontab: 
+   Refer to the set crontab timer section:
+   [Set crontab timer](#set-crontab-timer)
+   
    
 ## Manual Installation:
 
-  * Download the ISO for their respective machines:
+  Download the ISO for their respective machines:
    1. Link to the server mahcine iso: [https://example.com](https://example.com)  
      User: cslab  
      Pass: sweet child o ccom
    3. Link to the client mahcine iso: [https://example.com](https://example.com)  
     User: cslab  
     Pass: sweet child o ccom
- * Clone the project: 
+  Clone the project: 
    Once you are in, use the terminal to clone the project:
    ```
    git clone https://github.com/Jeann-Carlos/cslabproject.git
@@ -201,8 +198,8 @@ sudo mkhomedir_helper [rrsync_user]
    Refer to the set crontab timer section:
    [Set crontab timer](#set-crontab-timer)
    
- #### Cient Side: 
- ### Prerequisites
+ ### Cient Side: 
+ #### Prerequisites
  You'll need a machine on a restricted network, preferably running a Debian-based Linux distribution, as well as access to the following programs::
   ```
   curl
@@ -244,19 +241,33 @@ My recommendation is to use kali linux: https://www.kali.org/get-kali/
    Run the installation script:
    ```
    sudo ./cslabproject/client_workdir/installation_script.sh
+   ```   
+   #### Client_scan settings:  
+   Open the file `client_scan.sh` inside client_workdir with a file editor and modify: 
+   ```
+   localip  # local machine ip
+   serverip # vpn server ip
+   targettimeout # per target timeout
+   globaltimeout # global timeout 
+   userrsync # user to rrsync
    ```
    #### Setup Crontab: 
    Refer to the set crontab timer section:
    [Set crontab timer](#set-crontab-timer)
+ 
+  ## Set crontab timer:  
    
-   #### Client_scan settings:  
-   Open the file `client_scan.sh` inside client_workdir with a file editor and modify:  
-   localip=  # 
-   serverip=  
-   targettimeout=  
-   globaltimeout=  
-   userRrsync=
+   ```
+   sudo crontab -e 
+   ```
+  This line should appear at the end of the file when you open it (unless you used your own ISO): `*/3 * * * * program_name >/dev/null 2>&1`   
+   Server: Change it to specify when the process should look for fresh files sent by the client pc; the scan will run every 3 minutes by default.
+   Client: Change it to specify when the process should start a scan and send files to the Vpn server.
    
+   Crontab Syntax:  
+   ![GitHub Logo](https://i2.wp.com/www.adminschoice.com/wp-content/uploads/2009/12/crontab-layout.png?resize=768%2C341&ssl=1)
+  
+    
 
 <!-- USAGE EXAMPLES -->
 ## Usage
